@@ -26,10 +26,21 @@ ertesitesek:
 
 # Az event indítása után a hírdető 
 # üzenetek közötti késleltetés másodpercben
-kesleltetes: 30
+kesleltetes: 10
+
+# Hány másodpercet számoljon
+# vissza amíg feloldódik a fagyasztás
+visszaszamlalas: 5
+
+# Ezek a parancso futnak le a 
+# nyertes neveivel (%nyertes%)
+nyertesparancsok:
+  - 'give %nyertes% minecraft:stone 1'
+  - 'give %nyertes% minecraft:acacia_button 1'
 
 # Üzenetek
 uzenetek:
+  nincsjogod: '%prefix% &cNincs jogod ehhez!'
   hirdeto: '%prefix% &fHamarosan Cica Sumo event indul! Kattints &6&l[Ide]&f a csatlakozáshoz!'
   marmegy: '%prefix% &cAz aréna már el van indítva!'
   elinditottad: '%prefix% &aElindítottad az arénát!'
@@ -41,7 +52,11 @@ uzenetek:
   reloadrossz: '%prefix% &cA konfiguráció újratöltése sikertelen!'
 
   eventvege: '%prefix% &aAz eventnek vége. Visszateleportáltunk a spawnra.'
-
+  
+  kortnyertel: '%prefix% &aMegnyerted ezt a kört!'
+  vesztettel: '%prefix% &cVesztettél. Majd legközelebb!'
+  nyertel: '%prefix% &aMegnyerted az arénát!'
+  nyertelbroadcast: '%prefix% &f%nyertes%&a megnyerte a Sumo arénát!'
   nemmegy: '%prefix% &cJelenleg nem megy sumo aréna!'
   xycsatlakozott: '%prefix% &a%player%&f csatlakozott az arénába! (%joinedplayers%&7/&f%maxplayers%)'
   csatlakoztal: '%prefix% &cCsatlakoztál az arénába! &f(%joinedplayers%&7/&f%maxplayers%)'
