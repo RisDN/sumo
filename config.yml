@@ -1,0 +1,48 @@
+# Sumo Plugin beállítások #
+
+# Sumo plugin üzenetei előtt 
+# megjelenő prefix
+prefix: '&d&l[&5Cica Sumo&d&l]&r'
+
+# Aréna indításához szükséges játékos mennysiég
+minimum: 2
+maximum: 10
+
+# Az event startolása előtt visszaszámlálás
+# ettől a számtól másodpercben.
+varakozas: 30
+
+# Ennyi másodpercnél fogja a 'hamarosanindul' üzenetet küldeni.
+ertesitesek:
+  - 30
+  - 20
+  - 15
+  - 10
+  - 5
+  - 4
+  - 3
+  - 2 
+  - 1
+
+# Az event indítása után a hírdető 
+# üzenetek közötti késleltetés másodpercben
+kesleltetes: 30
+
+# Üzenetek
+uzenetek:
+  hirdeto: '%prefix% &fHamarosan Cica Sumo event indul! Kattints &6&l[Ide]&f a csatlakozáshoz!'
+  marmegy: '%prefix% &cAz aréna már el van indítva!'
+  elinditottad: '%prefix% &aElindítottad az arénát!'
+  nincsilyenhelyszin: '%prefix% &cNincs ilyen aréna helyszín. Lehetőségek: &f<spawn | lobby | arena1 | arena2>&c.'
+  helybeallitva: '%prefix% &aSikeresen beállítottad a &f%hely%&a teleportációs pontot'
+  hamarosanindul: '%prefix% &aAz aréna &f%mp%&a másodperc múlva indul.'
+
+  reloadjo: '%prefix% &aA konfiguráció sikeresen újra töltve'
+  reloadrossz: '%prefix% &cA konfiguráció újratöltése sikertelen!'
+
+  eventvege: '%prefix% &aAz eventnek vége. Visszateleportáltunk a spawnra.'
+
+  nemmegy: '%prefix% &cJelenleg nem megy sumo aréna!'
+  xycsatlakozott: '%prefix% &a%player%&f csatlakozott az arénába! (%joinedplayers%&7/&f%maxplayers%)'
+  csatlakoztal: '%prefix% &cCsatlakoztál az arénába! &f(%joinedplayers%&7/&f%maxplayers%)'
+  marcsatlakoztal: '%prefix% &cMár csatlakoztál az arénába!'

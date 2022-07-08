@@ -1,0 +1,10 @@
+name: Sumo
+author: Ris
+version: 1.0.0
+api-version: 1.18
+main: hu.ris.sumo.Main
+
+commands:
+  sumo:
+    description: Sumo plugin vezérlője
+    aliases: [risumo, sumoplugin]
