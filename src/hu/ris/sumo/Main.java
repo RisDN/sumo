@@ -63,15 +63,6 @@ public class Main extends JavaPlugin {
 		return ChatColor.translateAlternateColorCodes('&', message.replace("%prefix%", getConfig().getString("prefix")));
 	}
 	
-	@EventHandler
-	public void onDisconnect(PlayerQuitEvent p) {
-		getLogger().info("cica");
-		if(!inArenaPlayers.contains(p.getPlayer())) {
-			return;
-		}
-		lose(p.getPlayer());
-	}
-	
 	
 	
 	private List<String> argsList = Arrays.asList("start", "stop", "join", "set", "info", "reload");
