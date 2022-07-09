@@ -92,6 +92,15 @@ public class Main extends JavaPlugin {
 		}
 		
 		
+		if(args[0].equalsIgnoreCase("info")) {
+			player.sendMessage(messageFormatter("&5&l---------------------"));
+			player.sendMessage(messageFormatter("&d Sumo Plugin &fv" + getDescription().getVersion()));
+			player.sendMessage(messageFormatter("&d Készítette:  &fRis#2928"));
+			player.sendMessage(messageFormatter("&d Aréna jelenleg: " + getArenaState()));
+			player.sendMessage(messageFormatter("&5&l---------------------"));
+			return true;
+		}
+		
 		if(args[0].equalsIgnoreCase("join")) {
 			
 			if(!ingame) {
@@ -144,6 +153,9 @@ public class Main extends JavaPlugin {
 			return true;
 		}
 		
+	
+		
+		
 		if(player.hasPermission("sumo.admin")) {
 			if(args[0].equalsIgnoreCase("start")) {
 				
@@ -181,8 +193,6 @@ public class Main extends JavaPlugin {
 				stop();
 				return true;
 			}
-			
-		
 			
 			
 			if(args[0].equalsIgnoreCase("set")) {
@@ -260,6 +270,13 @@ public class Main extends JavaPlugin {
 			}
 		}, 0, 20);
 		
+	}
+	
+	public String getArenaState()  {
+		if(ingame) {
+			return messageFormatter("&aFolyamatban"); 
+		}
+		return messageFormatter("&cNem megy"); 
 	}
 	
 	public void stop() {
