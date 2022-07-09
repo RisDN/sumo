@@ -12,6 +12,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -27,8 +30,10 @@ public class Main extends JavaPlugin {
 	FileManager location_fs;
 	Freeze freeze;
 	PlayerMoveEventHandler move;
+	LeaveHandler leavehandler;
 	ConsoleCommandSender console;
 	@Override
+	
 	public void onEnable() {
 		console = Bukkit.getServer().getConsoleSender();
 		Collections.sort(argsList);
@@ -38,12 +43,14 @@ public class Main extends JavaPlugin {
 		location_fs = new FileManager(this, "locations.yml");
 		freeze = new Freeze(this);
 		move = new PlayerMoveEventHandler(this);
+		leavehandler = new LeaveHandler(this);
 		
 		saveDefaultConfig();
 		reloadConfig();
 		getLogger().info("Sumo plugin indítása v" + getDescription().getVersion());
 		getServer().getPluginManager().registerEvents(freeze, this);
 		getServer().getPluginManager().registerEvents(move, this);
+		getServer().getPluginManager().registerEvents(leavehandler, this);
 	}
 	
 	public void onDisable() {
@@ -56,12 +63,22 @@ public class Main extends JavaPlugin {
 		return ChatColor.translateAlternateColorCodes('&', message.replace("%prefix%", getConfig().getString("prefix")));
 	}
 	
-
+	@EventHandler
+	public void onDisconnect(PlayerQuitEvent p) {
+		getLogger().info("cica");
+		if(!inArenaPlayers.contains(p.getPlayer())) {
+			return;
+		}
+		lose(p.getPlayer());
+	}
+	
+	
+	
 	private List<String> argsList = Arrays.asList("start", "stop", "join", "set", "info", "reload");
 	private List<String> locationList = Arrays.asList("spawn", "lobby", "arena1", "arena2");
 	private ArrayList<Player> joinedPlayers = new ArrayList<>();
 	private int maxPlayers = getConfig().getInt("maximum");
-	private boolean ingame;
+	public boolean ingame;
 	private int alertSched;
 	private int startSched;
 	private int countDown;
@@ -215,9 +232,7 @@ public class Main extends JavaPlugin {
 			
 			if(args[0].equalsIgnoreCase("reload")) {
 				try {
-					saveConfig();
 					reloadConfig();
-					location_fs.saveConfig("locations.yml");
 					location_fs.reloadConfig("locations.yml");
 					player.sendMessage(messageFormatter(getConfig().getString("uzenetek.reloadjo")));
 				} catch (Exception e) {
@@ -230,7 +245,7 @@ public class Main extends JavaPlugin {
 		}
 		return true;
 	}
-	private ArrayList<Player> inArenaPlayers = new ArrayList<>();
+	public ArrayList<Player> inArenaPlayers = new ArrayList<>();
 	private int pos = 0;
 	private int arenaStartSched;
 	private int arenaStartTimer;
@@ -257,7 +272,12 @@ public class Main extends JavaPlugin {
 			@Override
 			public void run() {
 				for(Player p : inArenaPlayers) {
-					p.sendTitle(messageFormatter("&a" + arenaStartTimer), "", 0, 20, 0);
+					if(p.getPlayer().getName() == inArenaPlayers.get(0).getName()) {
+						p.sendTitle(messageFormatter("&a" + arenaStartTimer), messageFormatter("&6🗡 &f" + inArenaPlayers.get(1).getName()), 0, 20, 0);
+					}  else {
+						p.sendTitle(messageFormatter("&a" + arenaStartTimer), messageFormatter("&6🗡 &f" + inArenaPlayers.get(0).getName()), 0, 20, 0);
+					}
+					
 				}
 
 				if(arenaStartTimer == 0) {
@@ -279,10 +299,12 @@ public class Main extends JavaPlugin {
 		return messageFormatter("&cNem megy"); 
 	}
 	
+	
 	public void stop() {
 		for(Player p : joinedPlayers) {
 			p.teleport(location_fs.getConfig("locations.yml").getLocation("spawn"));
 			p.sendMessage(messageFormatter(getConfig().getString("uzenetek.eventvege")));
+			freeze.freeze(p, false);
 		}
 		joinedPlayers.clear();
 		inArenaPlayers.clear();
@@ -326,5 +348,4 @@ public class Main extends JavaPlugin {
 	public ArrayList<Player> getInArenaPlayers() {
 		return inArenaPlayers;
 	}
-	
 }
