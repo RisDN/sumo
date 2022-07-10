@@ -61,3 +61,4 @@ uzenetek:
   xycsatlakozott: '%prefix% &a%player%&f csatlakozott az arénába! (%joinedplayers%&7/&f%maxplayers%)'
   csatlakoztal: '%prefix% &cCsatlakoztál az arénába! &f(%joinedplayers%&7/&f%maxplayers%)'
   marcsatlakoztal: '%prefix% &cMár csatlakoztál az arénába!'
+  nincselegendo: '%prefix% &cNincs elegendő játékos az indításhoz.'

@@ -12,9 +12,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -67,11 +64,11 @@ public class Main extends JavaPlugin {
 	
 	private List<String> argsList = Arrays.asList("start", "stop", "join", "set", "info", "reload");
 	private List<String> locationList = Arrays.asList("spawn", "lobby", "arena1", "arena2");
-	private ArrayList<Player> joinedPlayers = new ArrayList<>();
+	public ArrayList<Player> joinedPlayers = new ArrayList<>();
 	private int maxPlayers = getConfig().getInt("maximum");
 	public boolean ingame;
 	private int alertSched;
-	private int startSched;
+	public int startSched;
 	private int countDown;
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -96,6 +93,15 @@ public class Main extends JavaPlugin {
 				}
 			}
 			player.sendMessage(messageFormatter("&5&l---------------------"));
+			return true;
+		}
+		
+		if(args[0].equalsIgnoreCase("fly"))  {
+			if(!player.getAllowFlight()) {
+				player.setAllowFlight(true);
+				return true;
+			}
+			player.setAllowFlight(false);
 			return true;
 		}
 		
@@ -297,16 +303,14 @@ public class Main extends JavaPlugin {
 			p.sendMessage(messageFormatter(getConfig().getString("uzenetek.eventvege")));
 			freeze.freeze(p, false);
 		}
-		joinedPlayers.clear();
+		joinedPlayers.clear(); 
 		inArenaPlayers.clear();
 		ingame = false;
 	}
 	
 	public void lose(Player p) {
-		if(!inArenaPlayers.contains(p)) { return; }
-		
-		getLogger().info("cica");
-		
+		if(!inArenaPlayers.contains(p) || !joinedPlayers.contains(p)) { return; }
+
 		joinedPlayers.remove(p);
 		inArenaPlayers.remove(p);
 		p.teleport(location_fs.getConfig("locations.yml").getLocation("spawn"));
